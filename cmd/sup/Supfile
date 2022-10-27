@@ -10,7 +10,7 @@ env:
 networks:
   local:
     hosts:
-      - root@121.37.221.165:10022  lantian.06
+      - root@test:1222  123456
   staging:
     hosts:
       - stg1.example.com
