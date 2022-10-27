@@ -51,6 +51,7 @@ func (sup *Stackup) Run(network *Network, envVars EnvList, commands ...*Command)
 	errCh := make(chan error, len(network.Hosts))
 
 	for i, host := range network.Hosts {
+
 		wg.Add(1)
 		go func(i int, host string) {
 			defer wg.Done()

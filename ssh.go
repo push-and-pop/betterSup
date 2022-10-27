@@ -43,6 +43,17 @@ func (e ErrConnect) Error() string {
 
 // parseHost parses and normalizes <user>@<host:port> from a given string.
 func (c *SSHClient) parseHost(host string) error {
+
+	vars := strings.Fields(strings.TrimSpace(host))
+
+	switch len(vars) {
+	case 2:
+		passWordMethod = append(passWordMethod, ssh.Password(vars[1]))
+		host = vars[0]
+	default:
+		host = vars[0]
+	}
+
 	c.host = host
 
 	// Remove extra "ssh://" schema
@@ -79,7 +90,7 @@ func (c *SSHClient) parseHost(host string) error {
 
 var initAuthMethodOnce sync.Once
 var authMethod ssh.AuthMethod
-var passWordMethod ssh.AuthMethod
+var passWordMethod []ssh.AuthMethod
 
 // initAuthMethod initiates SSH authentication method.
 func initAuthMethod() {
@@ -113,7 +124,7 @@ func initAuthMethod() {
 }
 
 func InitPassWordMethod(password string) {
-	passWordMethod = ssh.Password(password)
+	passWordMethod = append(passWordMethod, ssh.Password(password))
 }
 
 // SSHDialFunc can dial an ssh server and return a client
@@ -144,9 +155,11 @@ func (c *SSHClient) ConnectWith(host string, dialer SSHDialFunc) error {
 		User: c.user,
 		Auth: []ssh.AuthMethod{
 			authMethod,
-			passWordMethod,
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	}
+	if len(passWordMethod) != 0 {
+		config.Auth = append(config.Auth, passWordMethod...)
 	}
 
 	c.conn, err = dialer("tcp", c.host, config)

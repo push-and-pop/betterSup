@@ -14,7 +14,7 @@ import (
 
 	"github.com/mikkeloscar/sshconfig"
 	"github.com/pkg/errors"
-	"github.com/push-and-pop/betterSup"
+	sup "github.com/push-and-pop/betterSup"
 )
 
 var (
@@ -341,6 +341,7 @@ func main() {
 	for _, val := range append(conf.Env, network.Env...) {
 		vars.Set(val.Key, val.Value)
 	}
+	//todo:
 	if err := vars.ResolveValues(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)

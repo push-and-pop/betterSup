@@ -1,0 +1,33 @@
+# Supfile
+---
+version: 0.4
+
+# Global environment variables
+env:
+  NAME: api
+  IMAGE: example/api
+
+networks:
+  local:
+    hosts:
+      - root@121.37.221.165:10022  lantian.06
+  staging:
+    hosts:
+      - stg1.example.com
+  production:
+    hosts:
+      - api1.example.com
+      - api2.example.com
+
+commands:
+  echo:
+    desc: Print some env vars
+    run: echo nihao
+  date:
+    desc: Print OS name and current date/time
+    run: uname -a; date
+
+targets:
+  all:
+    - echo
+    - date
