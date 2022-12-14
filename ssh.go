@@ -81,9 +81,16 @@ func (c *SSHClient) parseHost(host string) error {
 	}
 
 	// Add default port, if not set
-	if strings.Index(c.host, ":") == -1 {
+	switch strings.Index(c.host, ":") {
+	case -1:
 		c.host += ":22"
+	default:
+		res := strings.Split(c.host, ":")
+		c.host += fmt.Sprintf(":%s", res[1])
 	}
+	//if strings.Index(c.host, ":") == -1 {
+	//	c.host += ":22"
+	//}
 
 	return nil
 }
