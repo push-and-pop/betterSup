@@ -85,13 +85,8 @@ func (c *SSHClient) parseHost(host string) error {
 	case -1:
 		c.host += ":22"
 	default:
-		res := strings.Split(c.host, ":")
-		c.host += fmt.Sprintf(":%s", res[1])
-		c.host = res[0]
+
 	}
-	//if strings.Index(c.host, ":") == -1 {
-	//	c.host += ":22"
-	//}
 
 	return nil
 }
