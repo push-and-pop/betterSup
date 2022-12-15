@@ -107,7 +107,7 @@ func initAuthMethod() {
 	}
 
 	// Try to read user's SSH private keys form the standard paths.
-	files, _ := filepath.Glob(os.Getenv("HOME") + "/.ssh/id_*")
+	files, _ := filepath.Glob(os.Getenv("HOME") + "/.ssh/*")
 	for _, file := range files {
 		if strings.HasSuffix(file, ".pub") {
 			continue // Skip public keys.
